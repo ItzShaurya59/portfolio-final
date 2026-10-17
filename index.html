@@ -379,6 +379,7 @@
             overflow: hidden;
             transition: transform 4s cubic-bezier(0.1, 0.7, 0.1, 1);
             box-shadow: 0 0 25px rgba(0,0,0,0.5);
+            /* Conic gradient perfectly synchronized to match reference image layout */
             background: conic-gradient(
                 var(--accent-red) 0deg 72deg,
                 #111111 72deg 144deg,
@@ -399,20 +400,21 @@
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            padding-right: 20px;
+            padding-right: 18px;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #ffffff;
             text-shadow: 1px 1px 2px #000;
             pointer-events: none;
             box-sizing: border-box;
         }
 
-        .seg-0 { transform: rotate(-234deg); }
-        .seg-1 { transform: rotate(-162deg); }
-        .seg-2 { transform: rotate(-90deg); }
-        .seg-3 { transform: rotate(-18deg); }
-        .seg-4 { transform: rotate(54deg); }
+        /* Rotations perfectly aligned to reference photo */
+        .seg-0 { transform: rotate(-36deg); }
+        .seg-1 { transform: rotate(-108deg); }
+        .seg-2 { transform: rotate(-180deg); }
+        .seg-3 { transform: rotate(-252deg); }
+        .seg-4 { transform: rotate(-324deg); }
 
         .roulette-pointer {
             position: absolute;
@@ -490,9 +492,9 @@
             .bj-card .trait-title { font-size: 0.65rem;}
             .playing-card { width: 85px; height: 125px; }
             .cards-container { min-height: 140px; }
-            nav { padding: 1rem 15px; }
-            .logo { font-size: 1.2rem; }
-            .nav-links { gap: 0.6rem; }
+            nav { padding: 1rem 15px; flex-direction: row; justify-content: space-between; gap: 6px; }
+            .logo { font-size: 1.1rem; }
+            .nav-links { gap: 0.5rem; }
             .nav-links a { font-size: 0.75rem; }
         }
     </style>
@@ -634,7 +636,7 @@
                     Email
                 </a>
                 
-                <a href="https://instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" class="gold-pill">
+                <a href="https://www.instagram.com/shxurya_13?dlrf=MWk5Z2ZjNTd2djNnMw==" target="_blank" rel="noopener noreferrer" class="gold-pill">
                     <svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
                     Instagram
                 </a>
@@ -718,11 +720,11 @@
             });
 
             const gameSenseTraits = [
-                { val: '2', suit: '♠', color: 'black', title: 'Recognising Patterns' },
-                { val: '3', suit: '♥', color: 'red', title: 'Handling Numbers' },
-                { val: '4', suit: '♣', color: 'black', title: 'Creative Approach' },
-                { val: '5', suit: '♦', color: 'red', title: 'Smart Risk Taking' },
-                { val: '7', suit: '♠', color: 'black', title: 'Thinking on my Feet' }
+                { val: '2', suit: '♠', color: 'black', title: 'Good in recognizing pattern' },
+                { val: '3', suit: '♥', color: 'red', title: 'Proficiency in handling numbers' },
+                { val: '4', suit: '♣', color: 'black', title: 'Creative approach' },
+                { val: '5', suit: '♦', color: 'red', title: 'Smart risk taking' },
+                { val: '7', suit: '♠', color: 'black', title: 'Thinking on my feet' }
             ];
             
             let bjIndex = 0;
