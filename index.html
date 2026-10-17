@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of Shaurya Lalwani - MBA Tech Data Science student and developer.">
+    <title>Shaurya Lalwani | Portfolio</title>
+    <!-- White LALU favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='35' fill='%23f6f0e6' font-weight='bold'>LALU</text></svg>">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,800;0,900;1,600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #113f2e; /* Deep casino green */
+            --bg-lighter: #18523c;
+            --text-main: #f6f0e6; /* Off-white */
+            --text-muted: #b5c7bf;
+            --accent-gold: #dcb661;
+            --accent-red: #c63531;
+            --accent-red-dark: #a12926;
+            --card-bg: #f3ebd9; /* Pale beige */
+            --card-text: #222222;
+            
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+            
+            --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 50%, var(--bg-lighter) 0%, var(--bg-color) 80%);
+            background-size: 200% 200%;
+            animation: bgShift 15s ease infinite;
+            color: var(--text-main);
+            line-height: 1.6;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes bgShift {
+            0% { background-position: 50% 0%; }
+            50% { background-position: 50% 100%; }
+            100% { background-position: 50% 0%; }
+        }
+
+        .floating-suits {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .suit-particle {
+            position: absolute;
+            bottom: -10%;
+            color: rgba(255, 255, 255, 0.03);
+            animation: floatUp linear infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-120vh) rotate(360deg); }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 24px;
+            border-bottom: 2px solid var(--accent-gold);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--text-main); /* White Logo */
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            letter-spacing: 1px;
+        }
+
+        .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--accent-gold); }
+
+        .hero { text-align: center; padding: 4rem 0 2rem; }
+
+        .dealer-text {
+            color: var(--accent-gold);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: var(--font-serif);
+            font-weight: 900;
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+        }
+
+        .hero-desc {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            font-size: 1.15rem;
+            line-height: 1.8;
+        }
+
+        .tap-prompt { color: var(--text-muted); margin-bottom: 1.5rem; }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            perspective: 1000px;
+            min-height: 220px;
+        }
+
+        .playing-card {
+            width: 140px;
+            height: 200px;
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .playing-card:nth-child(1) { transform: rotate(-8deg) translateY(10px); }
+        .playing-card:nth-child(2) { transform: rotate(0deg) translateY(-5px); z-index: 2; }
+        .playing-card:nth-child(3) { transform: rotate(8deg) translateY(10px); }
+
+        .playing-card:hover:not(.flipped) { transform: translateY(-15px) scale(1.05) !important; }
+
+        .playing-card.flipped { transform: rotateY(180deg) scale(1.1) !important; z-index: 10; }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border: 6px solid var(--text-main);
+        }
+
+        .card-front {
+            background: repeating-linear-gradient(
+                45deg,
+                var(--accent-red),
+                var(--accent-red) 15px,
+                var(--accent-red-dark) 15px,
+                var(--accent-red-dark) 30px
+            );
+        }
+
+        .card-back {
+            background-color: var(--card-bg);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--card-text);
+            padding: 10px;
+        }
+
+        .card-val-suit { display: flex; align-items: baseline; gap: 4px; }
+        .card-value { font-family: var(--font-serif); font-size: 3.5rem; font-weight: 900; line-height: 1;}
+        .card-suit { font-size: 2.5rem; line-height: 1;}
+        .card-trait { font-weight: 800; font-size: 0.95rem; margin-top: 0.5rem; text-align: center;}
+        
+        .suit-red { color: var(--accent-red); }
+        .suit-black { color: #111111; }
+
+        .btn-dashed {
+            background: transparent;
+            color: var(--text-main);
+            border: 2px dashed var(--text-main);
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+            display: inline-block;
+            text-decoration: none;
+        }
+        .btn-dashed:hover {
+            background: var(--text-main);
+            color: var(--bg-color);
+        }
+        .btn-dashed.red-theme {
+            background: var(--accent-red);
+            border-color: var(--text-main);
+        }
+        .btn-dashed.red-theme:hover {
+            background: var(--accent-red-dark);
+            color: var(--text-main);
+        }
+
+        .divider {
+            border: 0;
+            border-top: 1px dashed rgba(255, 255, 255, 0.2);
+            margin: 4rem auto;
+            max-width: 1000px;
+        }
+
+        .section-header {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+
+        .about-layout {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .table-box {
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 2rem;
+            background: rgba(0,0,0,0.1);
+        }
+        .table-box h3 {
+            color: var(--accent-gold);
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .table-item { margin-bottom: 1.2rem; }
+        .table-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            display: block;
+        }
+        .table-value { font-weight: 500; font-size: 1.05rem; }
+
+        .game-intro { margin-bottom: 2rem; font-size: 1.1rem; }
+
+        .bj-board { text-align: center; position: relative; overflow: hidden; }
+        .bj-message {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            height: 2rem;
+        }
+        .bj-message span { color: var(--accent-gold); font-weight: 900;}
+
+        .bj-cards {
+            display: flex;
+            justify-content: center;
+            min-height: 160px;
+            margin-bottom: 2rem;
+        }
+
+        .bj-card {
+            width: 110px;
+            height: 160px;
+            background: var(--card-bg);
+            border: 4px solid var(--text-main);
+            border-radius: 8px;
+            box-shadow: -4px 4px 10px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            color: var(--card-text);
+            position: relative;
+            margin-left: -50px; 
+            opacity: 0;
+            transform: translateY(-50px) rotate(-15deg);
+            animation: dealCard 0.5s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .bj-card:first-child { margin-left: 0; }
+        
+        @keyframes dealCard {
+            to { opacity: 1; transform: translateY(0) rotate(0); }
+        }
+
+        .bj-card .val { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 900; line-height: 1; text-align: left; }
+        .bj-card .suit { font-size: 1.5rem; line-height: 1; text-align: left; margin-bottom: auto;}
+        .bj-card .trait-title { font-weight: 800; font-size: 0.85rem; text-align: center; line-height: 1.2; }
+        .bj-card.red { color: var(--accent-red); }
+        .bj-card.black { color: #111; }
+
+        .chip-stack-title { font-family: var(--font-serif); font-size: 1.3rem; margin-bottom: 1.5rem; }
+
+        .chips-container {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .poker-chip {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            border: 6px dashed var(--text-main);
+            box-shadow: inset 0 0 0 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.3);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            transition: transform 0.3s;
+        }
+        .poker-chip:hover { transform: translateY(-5px) rotate(10deg); }
+        
+        .chip-red { background: var(--accent-red); }
+        .chip-blue { background: #24428a; }
+        .chip-black { background: #1a1a1a; }
+
+        .roulette-section {
+            background: rgba(0,0,0,0.15);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .roulette-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            margin: 0 auto 2rem;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 8px solid var(--accent-gold);
+            position: relative;
+            overflow: hidden;
+            transition: transform 4s cubic-bezier(0.1, 0.7, 0.1, 1);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            background: conic-gradient(
+                var(--accent-red) 0deg 72deg,
+                #111111 72deg 144deg,
+                var(--accent-red) 144deg 216deg,
+                #111111 216deg 288deg,
+                var(--bg-lighter) 288deg 360deg
+            );
+        }
+
+        .wheel-segment-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50%;
+            height: 40px;
+            margin-top: -20px;
+            transform-origin: 0% 50%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 25px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px #000;
+            pointer-events: none;
+            box-sizing: border-box;
+        }
+
+        /* 
+           Correct math for centering text in 72-degree slices starting from top.
+           Text natively points right (90deg).
+           Slice centers: 36, 108, 180, 252, 324.
+           Rotation needed: Center - 90deg.
+        */
+        .seg-0 { transform: rotate(-54deg); }
+        .seg-1 { transform: rotate(18deg); }
+        .seg-2 { transform: rotate(90deg); }
+        .seg-3 { transform: rotate(162deg); }
+        .seg-4 { transform: rotate(234deg); }
+
+        .roulette-pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid var(--text-main);
+            z-index: 10;
+            filter: drop-shadow(0 4px 4px rgba(0,0,0,0.4));
+        }
+
+        .spin-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: var(--text-main);
+            border: 4px solid var(--accent-gold);
+            border-radius: 50%;
+            color: var(--bg-color);
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            z-index: 20;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform 0.1s;
+        }
+        .spin-btn:active { transform: translate(-50%, -50%) scale(0.95); }
+
+        .roulette-result { text-align: center; min-height: 80px; }
+        .roulette-result h4 { font-family: var(--font-serif); color: var(--accent-gold); font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+        .contact-intro { font-size: 1.1rem; margin-bottom: 2rem; }
+        .contact-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+        .gold-pill {
+            background: var(--accent-gold);
+            color: #1a1a1a;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            min-width: 150px;
+        }
+        .gold-pill:hover {
+            background: #e8c678;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        .gold-pill svg { width: 22px; height: 22px; fill: currentColor; }
+
+        footer { text-align: center; padding: 2rem 0; color: var(--text-muted); font-size: 0.9rem; }
+
+        @media (max-width: 768px) {
+            .about-layout { grid-template-columns: 1fr; gap: 2rem; }
+            h1 { font-size: 3.5rem; }
+            .chips-container { justify-content: center; }
+            .roulette-container { width: 260px; height: 260px; }
+            .contact-links { justify-content: center; }
+            .bj-card { width: 80px; height: 120px; margin-left: -30px; }
+            .bj-card .val { font-size: 1.2rem;}
+            .bj-card .suit { font-size: 1.2rem;}
+            .bj-card .trait-title { font-size: 0.7rem;}
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#" class="logo">LALU</a>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#game-sense">Game Sense</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero container">
+            <p class="dealer-text">Your deal, dealer's name: Shaurya</p>
+            <h1>Shaurya<br>Lalwani</h1>
+            <p class="hero-desc">MBA Tech (Data Science) student at NMIMS. I turn ideas into working things, one hand at a time.</p>
+            
+            <p class="tap-prompt">Tap a card to turn it over.</p>
+            <div class="cards-container" id="hero-cards">
+                <!-- Cards inject randomly on click via JS -->
+                <div class="playing-card" tabindex="0">
+                    <div class="card-face card-front"></div>
+                    <div class="card-face card-back">
+                        <div class="card-val-suit suit-black"><span class="card-value"></span><span class="card-suit"></span></div>
+                        <div class="card-trait suit-black"></div>
+                    </div>
+                </div>
+                <div class="playing-card" tabindex="0">
+                    <div class="card-face card-front"></div>
+                    <div class="card-face card-back">
+                        <div class="card-val-suit suit-red"><span class="card-value"></span><span class="card-suit"></span></div>
+                        <div class="card-trait suit-red"></div>
+                    </div>
+                </div>
+                <div class="playing-card" tabindex="0">
+                    <div class="card-face card-front"></div>
+                    <div class="card-face card-back">
+                        <div class="card-val-suit suit-red"><span class="card-value"></span><span class="card-suit"></span></div>
+                        <div class="card-trait suit-red"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="deal-again-btn" class="btn-dashed red-theme">Deal again</button>
+        </section>
+
+        <hr class="divider">
+
+        <section id="about" class="container">
+            <h2 class="section-header">About me</h2>
+            <div class="about-layout">
+                <div class="about-text">
+                    <p>I'm Shaurya, pursuing an MBA Tech in Data Science at NMIMS. I'm just someone who genuinely enjoys learning how things work and putting ideas into action.</p>
+                    <p>I like solving puzzles—whether that means playing with data, working alongside a team, or just figuring out everyday stuff. I believe in putting in steady work and adapting quickly when the game changes.</p>
+                    <p>When I'm away from my screen, you'll probably find me exploring new parts of the city, hunting for good food, or hanging out with friends.</p>
+                </div>
+                <div class="table-box">
+                    <h3>At the table</h3>
+                    <div class="table-item">
+                        <span class="table-label">Studying</span>
+                        <span class="table-value">MBA Tech, Data Science</span>
+                    </div>
+                    <div class="table-item">
+                        <span class="table-label">School</span>
+                        <span class="table-value">NMIMS</span>
+                    </div>
+                    <div class="table-item">
+                        <span class="table-label">Plays</span>
+                        <span class="table-value">Football, board and card games</span>
+                    </div>
+                    <div class="table-item">
+                        <span class="table-label">Based in</span>
+                        <!-- You can edit your city here -->
+                        <span class="table-value" style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px;">Mumbai</span> 
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section id="game-sense" class="container">
+            <h2 class="section-header">Game Sense</h2>
+            <p class="game-intro">My skills, played as a hand of Blackjack. Hit the deck to see what I bring to the table.</p>
+            
+            <div class="table-box bj-board">
+                <div class="bj-message" id="bj-message">Place your bet.</div>
+                <div class="bj-cards" id="bj-cards">
+                    <!-- Cards injected here via JS -->
+                </div>
+                <button id="bj-action-btn" class="btn-dashed red-theme">Deal Hand</button>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section id="skills" class="container">
+            <h2 class="section-header">Skills</h2>
+            
+            <h3 class="chip-stack-title">My chip stack</h3>
+            <div class="chips-container">
+                <div class="poker-chip chip-red">Python</div>
+                <div class="poker-chip chip-blue">SQL</div>
+                <div class="poker-chip chip-black">C++</div>
+            </div>
+
+            <h3 class="chip-stack-title" style="margin-top: 2rem;">Off the clock</h3>
+            
+            <div class="roulette-section">
+                <div class="roulette-container">
+                    <div class="roulette-pointer"></div>
+                    <div class="wheel" id="roulette-wheel">
+                        <div class="wheel-segment-text seg-0">Football</div>
+                        <div class="wheel-segment-text seg-1">Playlists</div>
+                        <div class="wheel-segment-text seg-2">Travel & Food</div>
+                        <div class="wheel-segment-text seg-3">Board Games</div>
+                        <div class="wheel-segment-text seg-4">Concerts</div>
+                    </div>
+                    <button class="spin-btn" id="spin-btn">Spin</button>
+                </div>
+                
+                <div class="roulette-result" id="roulette-result" aria-live="polite">
+                    <h4>Take a spin</h4>
+                    <p>Click the center button to see what I do off the clock.</p>
+                </div>
+            </div>
+
+        </section>
+
+        <hr class="divider">
+
+        <section id="contact" class="container">
+            <h2 class="section-header">Contact</h2>
+            <p class="contact-intro">Want to play a hand together? Reach out.</p>
+            
+            <div class="contact-links">
+                <!-- EDIT HERE: Update email -->
+                <a href="mailto:shaurya.lalwani59@nmims.in" class="gold-pill">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    Email
+                </a>
+                
+                <!-- EDIT HERE: Update Instagram handle -->
+                <a href="https://www.instagram.com/shxurya_13?dlrf=MWk5Z2ZjNTd2djNnMw==" target="_blank" rel="noopener noreferrer" class="gold-pill">
+                    <svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+                    Instagram
+                </a>
+                
+                <!-- EDIT HERE: Update GitHub handle -->
+                <a href="https://github.com/ItzShaurya59" target="_blank" rel="noopener noreferrer" class="gold-pill">
+                    <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                    GitHub
+                </a>
+            </div>
+        </section>
+
+        <hr class="divider" style="margin-bottom: 0;">
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Shaurya Lalwani. Built with HTML, CSS and JavaScript.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            /* --- 1. BACKGROUND FLOATING SUITS --- */
+            function createFloatingSuits() {
+                const suits = ['♠', '♥', '♣', '♦'];
+                const container = document.createElement('div');
+                container.className = 'floating-suits';
+                document.body.appendChild(container);
+
+                for (let i = 0; i < 12; i++) {
+                    const suit = document.createElement('span');
+                    suit.className = 'suit-particle';
+                    suit.textContent = suits[Math.floor(Math.random() * suits.length)];
+                    suit.style.left = `${Math.random() * 100}%`;
+                    suit.style.animationDuration = `${15 + Math.random() * 25}s`;
+                    suit.style.animationDelay = `${Math.random() * 15}s`;
+                    suit.style.fontSize = `${2 + Math.random() * 4}rem`;
+                    container.appendChild(suit);
+                }
+            }
+            createFloatingSuits();
+
+            /* --- 2. HERO CARDS LOGIC --- */
+            const traits = [
+                { val: 'A', suit: '♠', text: 'Curious', color: 'black' },
+                { val: 'Q', suit: '♦', text: 'Adaptable', color: 'red' },
+                { val: 'K', suit: '♥', text: 'Driven', color: 'red' },
+                { val: 'J', suit: '♣', text: 'Logical', color: 'black' },
+                { val: '10', suit: '♠', text: 'Creative', color: 'black' },
+                { val: '9', suit: '♥', text: 'Focused', color: 'red' }
+            ];
+
+            const cards = document.querySelectorAll('.playing-card');
+            const dealAgainBtn = document.getElementById('deal-again-btn');
+
+            function getRandomTrait() {
+                return traits[Math.floor(Math.random() * traits.length)];
+            }
+
+            function assignCardContent(cardElement, traitObj) {
+                const valSpan = cardElement.querySelector('.card-value');
+                const suitSpan = cardElement.querySelector('.card-suit');
+                const traitSpan = cardElement.querySelector('.card-trait');
+                const container = cardElement.querySelector('.card-val-suit');
+                const traitContainer = cardElement.querySelector('.card-trait');
+                
+                valSpan.textContent = traitObj.val;
+                suitSpan.textContent = traitObj.suit;
+                traitSpan.textContent = traitObj.text;
+                
+                const colorClass = traitObj.color === 'red' ? 'suit-red' : 'suit-black';
+                container.className = `card-val-suit ${colorClass}`;
+                traitContainer.className = `card-trait ${colorClass}`;
+            }
+
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    if (!card.classList.contains('flipped')) {
+                        assignCardContent(card, getRandomTrait());
+                        card.classList.add('flipped');
+                    }
+                });
+            });
+
+            dealAgainBtn.addEventListener('click', () => {
+                cards.forEach(card => {
+                    card.classList.remove('flipped');
+                });
+            });
+
+            /* --- 3. GAME SENSE (BLACKJACK) LOGIC --- */
+            const gameSenseTraits = [
+                { val: '2', suit: '♠', color: 'black', title: 'Spotting Patterns' },
+                { val: '3', suit: '♥', color: 'red', title: 'Good with Numbers' },
+                { val: '4', suit: '♣', color: 'black', title: 'Creative Approach' },
+                { val: '5', suit: '♦', color: 'red', title: 'Taking Smart Risks' },
+                { val: '7', suit: '♠', color: 'black', title: 'Thinking on my Feet' }
+            ];
+            
+            let bjIndex = 0;
+            const bjCardsContainer = document.getElementById('bj-cards');
+            const bjMessage = document.getElementById('bj-message');
+            const bjBtn = document.getElementById('bj-action-btn');
+
+            function dealBJCard(trait) {
+                const card = document.createElement('div');
+                card.className = `bj-card ${trait.color}`;
+                card.innerHTML = `
+                    <div class="val">${trait.val}</div>
+                    <div class="suit">${trait.suit}</div>
+                    <div class="trait-title">${trait.title}</div>
+                `;
+                bjCardsContainer.appendChild(card);
+            }
+
+            bjBtn.addEventListener('click', () => {
+                if (bjIndex === 0) {
+                    // Start new hand
+                    bjCardsContainer.innerHTML = '';
+                    dealBJCard(gameSenseTraits[0]);
+                    setTimeout(() => dealBJCard(gameSenseTraits[1]), 250);
+                    bjIndex = 2;
+                    bjMessage.innerHTML = "Hand total: <span>5</span>. Hit me.";
+                    bjBtn.textContent = "Hit";
+                } else if (bjIndex < 5) {
+                    dealBJCard(gameSenseTraits[bjIndex]);
+                    bjIndex++;
+                    
+                    if (bjIndex === 3) bjMessage.innerHTML = "Hand total: <span>9</span>. Keep going.";
+                    if (bjIndex === 4) bjMessage.innerHTML = "Hand total: <span>14</span>. One more hit.";
+                    
+                    if (bjIndex === 5) {
+                        bjMessage.innerHTML = "<span>21!</span> Blackjack. A perfect hand.";
+                        bjBtn.textContent = "Play Again";
+                    }
+                } else {
+                    // Reset
+                    bjCardsContainer.innerHTML = '';
+                    bjIndex = 0;
+                    bjMessage.textContent = "Place your bet.";
+                    bjBtn.textContent = "Deal Hand";
+                }
+            });
+
+            /* --- 4. ROULETTE LOGIC --- */
+            const wheel = document.getElementById('roulette-wheel');
+            const spinBtn = document.getElementById('spin-btn');
+            const resultDiv = document.getElementById('roulette-result');
+            
+            let currentRotation = 0;
+            let isSpinning = false;
+
+            const hobbies = [
+                { title: "Football", desc: "Watching it and playing it." },
+                { title: "Playlists", desc: "One for every possible mood." },
+                { title: "Travel & Food", desc: "New places, new plates." },
+                { title: "Board Games", desc: "With friends, preferably with stakes of bragging rights." },
+                { title: "Concerts", desc: "Live music beats any playlist." }
+            ];
+
+            spinBtn.addEventListener('click', () => {
+                if (isSpinning) return;
+                isSpinning = true;
+
+                const randomDegrees = Math.floor(Math.random() * 360);
+                const totalRotation = currentRotation + 1080 + randomDegrees; 
+                
+                wheel.style.transform = `rotate(-${totalRotation}deg)`; 
+                
+                const effectiveRotation = totalRotation % 360;
+                let segmentIndex = Math.floor(effectiveRotation / 72);
+                
+                setTimeout(() => {
+                    const winningHobby = hobbies[segmentIndex];
+                    resultDiv.innerHTML = `
+                        <h4>${winningHobby.title}</h4>
+                        <p>${winningHobby.desc}</p>
+                    `;
+                    currentRotation = totalRotation;
+                    isSpinning = false;
+                }, 4000);
+            });
+        });
+    </script>
+</body>
+</html>
