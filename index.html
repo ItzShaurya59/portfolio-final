@@ -402,17 +402,11 @@
             box-sizing: border-box;
         }
 
-        /* 
-           Correct math for centering text in 72-degree slices starting from top.
-           Text natively points right (90deg).
-           Slice centers: 36, 108, 180, 252, 324.
-           Rotation needed: Center - 90deg.
-        */
-        .seg-0 { transform: rotate(-54deg); }
-        .seg-1 { transform: rotate(18deg); }
-        .seg-2 { transform: rotate(90deg); }
-        .seg-3 { transform: rotate(162deg); }
-        .seg-4 { transform: rotate(234deg); }
+        .seg-0 { transform: rotate(-144deg); }
+        .seg-1 { transform: rotate(-72deg); }
+        .seg-2 { transform: rotate(0deg); }
+        .seg-3 { transform: rotate(72deg); }
+        .seg-4 { transform: rotate(144deg); }
 
         .roulette-pointer {
             position: absolute;
@@ -488,6 +482,8 @@
             .bj-card .val { font-size: 1.2rem;}
             .bj-card .suit { font-size: 1.2rem;}
             .bj-card .trait-title { font-size: 0.7rem;}
+            .playing-card { width: 95px; height: 135px; }
+            .cards-container { min-height: 150px; }
         }
     </style>
 </head>
@@ -510,7 +506,6 @@
             
             <p class="tap-prompt">Tap a card to turn it over.</p>
             <div class="cards-container" id="hero-cards">
-                <!-- Cards inject randomly on click via JS -->
                 <div class="playing-card" tabindex="0">
                     <div class="card-face card-front"></div>
                     <div class="card-face card-back">
@@ -563,7 +558,6 @@
                     </div>
                     <div class="table-item">
                         <span class="table-label">Based in</span>
-                        <!-- You can edit your city here -->
                         <span class="table-value" style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px;">Mumbai</span> 
                     </div>
                 </div>
@@ -578,9 +572,7 @@
             
             <div class="table-box bj-board">
                 <div class="bj-message" id="bj-message">Place your bet.</div>
-                <div class="bj-cards" id="bj-cards">
-                    <!-- Cards injected here via JS -->
-                </div>
+                <div class="bj-cards" id="bj-cards"></div>
                 <button id="bj-action-btn" class="btn-dashed red-theme">Deal Hand</button>
             </div>
         </section>
@@ -627,19 +619,16 @@
             <p class="contact-intro">Want to play a hand together? Reach out.</p>
             
             <div class="contact-links">
-                <!-- EDIT HERE: Update email -->
                 <a href="mailto:shaurya.lalwani59@nmims.in" class="gold-pill">
                     <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
                     Email
                 </a>
                 
-                <!-- EDIT HERE: Update Instagram handle -->
-                <a href="https://www.instagram.com/shxurya_13?dlrf=MWk5Z2ZjNTd2djNnMw==" target="_blank" rel="noopener noreferrer" class="gold-pill">
+                <a href="https://instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" class="gold-pill">
                     <svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
                     Instagram
                 </a>
                 
-                <!-- EDIT HERE: Update GitHub handle -->
                 <a href="https://github.com/ItzShaurya59" target="_blank" rel="noopener noreferrer" class="gold-pill">
                     <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
                     GitHub
@@ -658,8 +647,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
-            /* --- 1. BACKGROUND FLOATING SUITS --- */
             function createFloatingSuits() {
                 const suits = ['♠', '♥', '♣', '♦'];
                 const container = document.createElement('div');
@@ -679,7 +666,6 @@
             }
             createFloatingSuits();
 
-            /* --- 2. HERO CARDS LOGIC --- */
             const traits = [
                 { val: 'A', suit: '♠', text: 'Curious', color: 'black' },
                 { val: 'Q', suit: '♦', text: 'Adaptable', color: 'red' },
@@ -691,10 +677,6 @@
 
             const cards = document.querySelectorAll('.playing-card');
             const dealAgainBtn = document.getElementById('deal-again-btn');
-
-            function getRandomTrait() {
-                return traits[Math.floor(Math.random() * traits.length)];
-            }
 
             function assignCardContent(cardElement, traitObj) {
                 const valSpan = cardElement.querySelector('.card-value');
@@ -715,24 +697,21 @@
             cards.forEach(card => {
                 card.addEventListener('click', () => {
                     if (!card.classList.contains('flipped')) {
-                        assignCardContent(card, getRandomTrait());
+                        assignCardContent(card, traits[Math.floor(Math.random() * traits.length)]);
                         card.classList.add('flipped');
                     }
                 });
             });
 
             dealAgainBtn.addEventListener('click', () => {
-                cards.forEach(card => {
-                    card.classList.remove('flipped');
-                });
+                cards.forEach(card => card.classList.remove('flipped'));
             });
 
-            /* --- 3. GAME SENSE (BLACKJACK) LOGIC --- */
             const gameSenseTraits = [
-                { val: '2', suit: '♠', color: 'black', title: 'Spotting Patterns' },
-                { val: '3', suit: '♥', color: 'red', title: 'Good with Numbers' },
+                { val: '2', suit: '♠', color: 'black', title: 'Recognising Patterns' },
+                { val: '3', suit: '♥', color: 'red', title: 'Handling Numbers' },
                 { val: '4', suit: '♣', color: 'black', title: 'Creative Approach' },
-                { val: '5', suit: '♦', color: 'red', title: 'Taking Smart Risks' },
+                { val: '5', suit: '♦', color: 'red', title: 'Smart Risk Taking' },
                 { val: '7', suit: '♠', color: 'black', title: 'Thinking on my Feet' }
             ];
             
@@ -754,7 +733,6 @@
 
             bjBtn.addEventListener('click', () => {
                 if (bjIndex === 0) {
-                    // Start new hand
                     bjCardsContainer.innerHTML = '';
                     dealBJCard(gameSenseTraits[0]);
                     setTimeout(() => dealBJCard(gameSenseTraits[1]), 250);
@@ -773,7 +751,6 @@
                         bjBtn.textContent = "Play Again";
                     }
                 } else {
-                    // Reset
                     bjCardsContainer.innerHTML = '';
                     bjIndex = 0;
                     bjMessage.textContent = "Place your bet.";
@@ -781,7 +758,6 @@
                 }
             });
 
-            /* --- 4. ROULETTE LOGIC --- */
             const wheel = document.getElementById('roulette-wheel');
             const spinBtn = document.getElementById('spin-btn');
             const resultDiv = document.getElementById('roulette-result');
@@ -793,7 +769,7 @@
                 { title: "Football", desc: "Watching it and playing it." },
                 { title: "Playlists", desc: "One for every possible mood." },
                 { title: "Travel & Food", desc: "New places, new plates." },
-                { title: "Board Games", desc: "With friends, preferably with stakes of bragging rights." },
+                { title: "Board Games", desc: "With friends, with bragging rights on the line." },
                 { title: "Concerts", desc: "Live music beats any playlist." }
             ];
 
@@ -803,7 +779,6 @@
 
                 const randomDegrees = Math.floor(Math.random() * 360);
                 const totalRotation = currentRotation + 1080 + randomDegrees; 
-                
                 wheel.style.transform = `rotate(-${totalRotation}deg)`; 
                 
                 const effectiveRotation = totalRotation % 360;
