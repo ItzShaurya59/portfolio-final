@@ -409,12 +409,12 @@
             box-sizing: border-box;
         }
 
-        /* Rotations perfectly aligned to reference photo */
-        .seg-0 { transform: rotate(-36deg); }
-        .seg-1 { transform: rotate(-108deg); }
-        .seg-2 { transform: rotate(-180deg); }
-        .seg-3 { transform: rotate(-252deg); }
-        .seg-4 { transform: rotate(-324deg); }
+        /* Rotations perfectly aligned to the exact center of each color slice */
+        .seg-0 { transform: rotate(-54deg); }
+        .seg-1 { transform: rotate(18deg); }
+        .seg-2 { transform: rotate(90deg); }
+        .seg-3 { transform: rotate(162deg); }
+        .seg-4 { transform: rotate(234deg); }
 
         .roulette-pointer {
             position: absolute;
@@ -789,7 +789,11 @@
                 if (isSpinning) return;
                 isSpinning = true;
 
-                const randomDegrees = Math.floor(Math.random() * 360);
+                // Pick a slice and ensure the pointer lands safely in the middle (avoiding the border lines)
+                const randomSlice = Math.floor(Math.random() * 5);
+                const randomOffset = 15 + Math.floor(Math.random() * 42); 
+                const randomDegrees = (randomSlice * 72) + randomOffset;
+                
                 const totalRotation = currentRotation + 1080 + randomDegrees; 
                 wheel.style.transform = `rotate(-${totalRotation}deg)`; 
                 
